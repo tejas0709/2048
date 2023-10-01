@@ -1,0 +1,167 @@
+
+document.addEventListener('keydown', moveLeft (event) {
+    // Check if the pressed key is the "A" key (you can use any key code or key name)
+    if (event.key === 'z' || event.key === 'z') {
+        // Call your function with the specified parameter
+        moveLeft(matrix);
+    }
+});
+
+document.addEventListener('keydown', moveRight (event) {
+    // Check if the pressed key is the "A" key (you can use any key code or key name)
+    if (event.key === 'd' || event.key === 'D') {
+        // Call your function with the specified parameter
+        moveRight(matrix);
+    }
+});
+
+document.addEventListener('keydown', moveUp (event) {
+    // Check if the pressed key is the "A" key (you can use any key code or key name)
+    if (event.key === 'w' || event.key === 'W') {
+        // Call your function with the specified parameter
+        moveUp(matrix);
+    }
+});
+
+document.addEventListener('keydown', moveDown (event) {
+    // Check if the pressed key is the "A" key (you can use any key code or key name)
+    if (event.key === 's' || event.key === 'S') {
+        // Call your function with the specified parameter
+        moveDown(matrix);
+    }
+});
+
+
+// Function to generate a random 4x4 grid with elements 2^n, n ranging from 0 to 12
+function generateRandomGrid() {
+  const grid = [];
+  for (let i = 0; i < 4; i++) {
+    const row = [];
+    for (let j = 0; j < 4; j++) {
+      // Generate a random value for each cell (2^n, n ranging from 0 to 12)
+      const cellValue = Math.pow(2, Math.floor(Math.random() * 13));
+      row.push(cellValue);
+    }
+    grid.push(row);
+  }
+  return grid;
+}
+
+// Function to move the tiles to the left
+function moveLeft(grid) {
+  for (let i = 0; i < 4; i++) {
+    let mergeIndex = 0;
+    for (let j = 1; j < 4; j++) {
+      if (grid[i][j] !== 0) {
+        if (grid[i][mergeIndex] === grid[i][j]) {
+          grid[i][mergeIndex] *= 2;
+          grid[i][j] = 0;
+          mergeIndex++;
+        } else if (grid[i][mergeIndex] === 0) {
+          grid[i][mergeIndex] = grid[i][j];
+          grid[i][j] = 0;
+        } else {
+          mergeIndex++;
+          grid[i][mergeIndex] = grid[i][j];
+          if (j !== mergeIndex) {
+            grid[i][j] = 0;
+          }
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+// Function to move the tiles to the right
+function moveRight(grid) {
+  for (let i = 0; i < 4; i++) {
+    let mergeIndex = 3;
+    for (let j = 2; j >= 0; j--) {
+      if (grid[i][j] !== 0) {
+        if (grid[i][mergeIndex] === grid[i][j]) {
+          grid[i][mergeIndex] *= 2;
+          grid[i][j] = 0;
+          mergeIndex--;
+        } else if (grid[i][mergeIndex] === 0) {
+          grid[i][mergeIndex] = grid[i][j];
+          grid[i][j] = 0;
+        } else {
+          mergeIndex--;
+          grid[i][mergeIndex] = grid[i][j];
+          if (j !== mergeIndex) {
+            grid[i][j] = 0;
+          }
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+// Function to move the tiles upwards
+function moveUp(grid) {
+  for (let j = 0; j < 4; j++) {
+    let mergeIndex = 0;
+    for (let i = 1; i < 4; i++) {
+      if (grid[i][j] !== 0) {
+        if (grid[mergeIndex][j] === grid[i][j]) {
+          grid[mergeIndex][j] *= 2;
+          grid[i][j] = 0;
+          mergeIndex++;
+        } else if (grid[mergeIndex][j] === 0) {
+          grid[mergeIndex][j] = grid[i][j];
+          grid[i][j] = 0;
+        } else {
+          mergeIndex++;
+          grid[mergeIndex][j] = grid[i][j];
+          if (i !== mergeIndex) {
+            grid[i][j] = 0;
+          }
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+// Function to move the tiles downwards
+function moveDown(grid) {
+  for (let j = 0; j < 4; j++) {
+    let mergeIndex = 3;
+    for (let i = 2; i >= 0; i--) {
+      if (grid[i][j] !== 0) {
+        if (grid[mergeIndex][j] === grid[i][j]) {
+          grid[mergeIndex][j] *= 2;
+          grid[i][j] = 0;
+          mergeIndex--;
+        } else if (grid[mergeIndex][j] === 0) {
+          grid[mergeIndex][j] = grid[i][j];
+          grid[i][j] = 0;
+        } else {
+          mergeIndex--;
+          grid[mergeIndex][j] = grid[i][j];
+          if (i !== mergeIndex) {
+            grid[i][j] = 0;
+          }
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+  // Check the direction and update the game board accordingly
+  if (direction === 'left') {
+    gameBoard = moveLeft(gameBoard);
+  } else if (direction === 'right') {
+    gameBoard = moveRight(gameBoard);
+  } else if (direction === 'up') {
+    gameBoard = moveUp(gameBoard);
+  } else if (direction === 'down') {
+    gameBoard = moveDown(gameBoard);
+  } else {
+    return res.status(400).json({ error: 'Invalid direction' });
+  }
+
+  
